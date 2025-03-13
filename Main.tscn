@@ -1,16 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://o37ctnjq7nv8"]
+[gd_scene load_steps=10 format=3 uid="uid://o37ctnjq7nv8"]
 
-[ext_resource type="PackedScene" uid="uid://dywfphjhappvw" path="res://Assets/Player.tscn" id="2_uu6xs"]
-[ext_resource type="PackedScene" uid="uid://dsofnbg8aivc7" path="res://Caves.tscn" id="3_cm0pq"]
-[ext_resource type="PackedScene" uid="uid://tmfo56g46gkr" path="res://Torch.tscn" id="3_r0du0"]
+[ext_resource type="PackedScene" uid="uid://dywfphjhappvw" path="res://Assets/Player.tscn" id="4_3dxm6"]
 [ext_resource type="PackedScene" uid="uid://csobkn11f0jo5" path="res://Assets/character.fbx" id="4_cm0pq"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_r0du0"]
-size = Vector3(5, 0.5, 5)
+[ext_resource type="PackedScene" uid="uid://cq6t01gek2syf" path="res://CaveEnvironment.tscn" id="4_fos0i"]
+[ext_resource type="PackedScene" uid="uid://bq8l0eygfalx5" path="res://SpiderDemon.tscn" id="5_fos0i"]
 
 [sub_resource type="Environment" id="Environment_r0du0"]
 background_mode = 1
-background_color = Color(0.0528421, 0.0528421, 0.0528421, 1)
+background_color = Color(0.886262, 0.886261, 0.886262, 1)
 background_energy_multiplier = 0.5
 fog_mode = 1
 fog_light_color = Color(0.227708, 0.250281, 0.285768, 1)
@@ -25,28 +22,13 @@ density = 0.3
 albedo = Color(0.565763, 0.565763, 0.565763, 1)
 edge_fade = 1.0
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_cm0pq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cm0pq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_r0du0"]
+
 [node name="Main" type="Node3D"]
-
-[node name="Player" parent="." instance=ExtResource("2_uu6xs")]
-transform = Transform3D(-0.9817, 0, -0.190432, 0, 1, 0, 0.190432, 0, -0.9817, 0.00218678, 7.87407, -3.114)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12431, -0.57912, -23.8518)
-shape = SubResource("BoxShape3D_r0du0")
-
-[node name="Caves" parent="." instance=ExtResource("3_cm0pq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-
-[node name="Torch" parent="Caves" instance=ExtResource("3_r0du0")]
-transform = Transform3D(-1, 9.39702e-05, -0.000155114, 0.000143181, 0.933989, -0.357302, 0.00011131, -0.357302, -0.933989, 0.517944, -2.04356, 26.6415)
-
-[node name="Torch2" parent="Caves" instance=ExtResource("3_r0du0")]
-transform = Transform3D(-0.619203, 0, 0.785231, 0, 1, 0, -0.78523, 0, -0.619204, -10.9447, -2.04356, 27.8462)
-
-[node name="Torch3" parent="Caves" instance=ExtResource("3_r0du0")]
-transform = Transform3D(-0.20261, -0.189661, 0.960718, 0.219789, 0.947228, 0.233351, -0.954275, 0.258434, -0.150233, 11.9264, -1.82437, 37.7406)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_r0du0")
@@ -58,3 +40,30 @@ material = SubResource("FogMaterial_uu6xs")
 
 [node name="character" parent="." instance=ExtResource("4_cm0pq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.1724, -2.52566, 38.185)
+
+[node name="CaveEnvironment" parent="." instance=ExtResource("4_fos0i")]
+
+[node name="SpiderDemon" parent="CaveEnvironment" node_paths=PackedStringArray("Player") instance=ExtResource("5_fos0i")]
+transform = Transform3D(0.176891, -0.00185092, -0.358756, 0, 0.399995, -0.00206368, 0.358761, 0.000912615, 0.176888, -12.4332, -2.40316, 44.3009)
+Player = NodePath("../Player")
+
+[node name="Player" parent="CaveEnvironment" instance=ExtResource("4_3dxm6")]
+transform = Transform3D(-0.252484, 0.257398, -1.96723, 0, 1.98309, 0.259473, 1.984, 0.0327566, -0.250351, 3.14923, -3.11727, 35.4178)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_cm0pq")
+navigation_layers = 0
+
+[node name="TestArea" type="StaticBody3D" parent="NavigationRegion3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/TestArea"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("BoxShape3D_cm0pq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/TestArea"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("BoxMesh_r0du0")
+
+[node name="SpiderDemon2" parent="NavigationRegion3D" instance=ExtResource("5_fos0i")]
+transform = Transform3D(-0.0646415, 0, 0.394742, 0, 0.4, 0, -0.394742, 0, -0.0646415, 3.70614, 0.818013, -0.139181)
+visible = false

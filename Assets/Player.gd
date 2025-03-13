@@ -4,11 +4,9 @@ extends CharacterBody3D
 @onready var camera = $Head/Camera
 @onready var flashLight = $Head/FlashLight
 
-const SPEED = 4.0
+const SPEED = 8.0
 const JUMP_VELOCITY = 3
 const LOOK_SENSITIVITY = .003
-
-var thing = 5
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -16,7 +14,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		head.rotate_y(-event.relative.x *LOOK_SENSITIVITY)
-		camera.rotate_x(-event.relative.y*LOOK_SENSITIVITY)
+		camera.rotate_x(event.relative.y*LOOK_SENSITIVITY)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-60), deg_to_rad(60))
 		flashLight.rotation.x = camera.rotation.x
 	if Input.is_action_just_pressed("ToggleFlashlight"):
@@ -33,8 +31,8 @@ func _physics_process(delta: float) -> void:
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("MoveLeft", "MoveRight", "MoveForward", "MoveBackward")
-	var direction = (head.transform.basis * -Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var input_dir = Input.get_vector("MoveForward", "MoveBackward" , "MoveRight", "MoveLeft")
+	var direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED

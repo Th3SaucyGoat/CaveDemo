@@ -7,6 +7,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dch2n"]
 
 [node name="Player" type="CharacterBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_l8qxc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -17,11 +18,13 @@ shape = SubResource("CapsuleShape3D_dch2n")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+current = true
 
 [node name="FlashLight" type="SpotLight3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.15, 0)
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0.199946, -0.15, 0.00365829)
 light_color = Color(1, 0.964706, 0.686275, 1)
-light_energy = 8.0
+light_energy = 16.0
 light_projector = ExtResource("1_1fna3")
 shadow_enabled = true
 spot_range = 8.0
