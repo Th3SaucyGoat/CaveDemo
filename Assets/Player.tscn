@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dywfphjhappvw"]
+
+[ext_resource type="Texture2D" uid="uid://dcjaqwa50apuy" path="res://Assets/Textures/FlashLightTexture.jpg" id="1_1fna3"]
+[ext_resource type="Script" uid="uid://bwjmfb82mf4ii" path="res://Assets/Player.gd" id="1_l8qxc"]
+[ext_resource type="Script" uid="uid://dv83mu34y6ytm" path="res://Assets/flashlight.gd" id="2_ify7s"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dch2n"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_l8qxc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_dch2n")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="Camera" type="Camera3D" parent="Head"]
+
+[node name="FlashLight" type="SpotLight3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.15, 0)
+light_color = Color(1, 0.964706, 0.686275, 1)
+light_energy = 8.0
+light_projector = ExtResource("1_1fna3")
+shadow_enabled = true
+spot_range = 8.0
+spot_attenuation = 1.5
+spot_angle = 30.0
+spot_angle_attenuation = 0.307786
+script = ExtResource("2_ify7s")
