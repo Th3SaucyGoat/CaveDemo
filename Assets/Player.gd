@@ -8,6 +8,8 @@ const SPEED = 4.0
 const JUMP_VELOCITY = 3
 const LOOK_SENSITIVITY = .003
 
+var thing = 5
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
